@@ -240,27 +240,3 @@ BEGIN
 	UPDATE usuarios SET contra = sha1(_contra) WHERE id_usuario =_idUsuario;
 END;$$
 DELIMITER ;
-
-
-/*
-  INSERT INTO `usuarios` (`id_usuario`, `nombre`, `contra`, `img_perfil`) VALUES
-  (2, 'Guille', '0f3fde0103dd44077c040215a2fabd09a097aecc', '60b4151b702de114.jpg'),
-  (3, 'Pruebaa', '0f3fde0103dd44077c040215a2fabd09a097aecc', 'defecto.jpg'),
-  (4, 'marce', '7a378471141690de478619fc75806d76abbc727b', 'defecto.jpg'),
-  (5, 'Lycaon', '6765b59e50a487dbeee9f4bf2286302cce5c5d30', 'defecto.jpg'),
-  (6, 'Coper', '5b04c2559ae486923b61c6b0ad69f6782213ff37', '60be77835948a240.jpg'),
-  (7, 'Barreera', 'e468364ca30745d9381292818b881271c2a3c8b9', '60bfa21b2466f812.jpeg'),
-  (8, 'david', '0f3fde0103dd44077c040215a2fabd09a097aecc', '60bfa1a1ebcf1139.jpg'),
-  (9, 'Licaon', '46d10d58bc819e353d9b382e6b7ae736f1417065', '60bfa22780070124.jpg'),
-  (10, 'Jaime1', '7c4a8d09ca3762af61e59520943dc26494f8941b', '60bfba2b0f6f8488.jpg'),
-  (11, 'Alvaro1', '7c4a8d09ca3762af61e59520943dc26494f8941b', '60bfbc07a5b6d665.jpg'),
-  (12, 'Felipe', 'b41e9b8dd61267c8eb3db48acfda473f53d9964b', 'defecto.jpg'),
-  (13, 'Daps', '9b8d516b2c0e552931248476f4101d7ce4e7610c', 'defecto.jpg');
-
-  private $servername = "localhost";
-  private $username = "id16810280_nohesidoyouser";
-  private $password = "pL6=G1!uBRNTVo<X";
-  private $dbname = "id16810280_nohesidoyo";
-  private $conn = null;
-  private $nomVarOut = "@p_out";
-*/

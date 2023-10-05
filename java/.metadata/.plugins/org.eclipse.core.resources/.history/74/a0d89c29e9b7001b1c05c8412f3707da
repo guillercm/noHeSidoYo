@@ -1,0 +1,109 @@
+package no_he_sido_yo;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
+
+public class Conexion {
+	
+    private final String CONTROLADOR = "com.mysql.cj.jdbc.Driver";
+    private final static String NOMBRE_BASE_DE_DATOS = "no_he_sido_yo";
+    private final static String URL = "jdbc:mysql://localhost/" + NOMBRE_BASE_DE_DATOS;
+    
+    private final static String USUARIO = "Jaime";
+    private final static String CLAVE = "1234";
+    //private final static String USUARIO = "root";
+    //private final static String CLAVE = "";
+   
+    /***************RUTAS JUEGO******************/
+    //public final static String RUTA = "http://localhost/webC/proyecto/";
+    public final static String RUTA = "http://localhost/Proyecto1C/5_Mayo/17-05/";
+    
+    public final static String RUTA_IMAGENES_JUEGO = RUTA + "multimedia/juego/";
+    public final static String RUTA_PREGUNTAS_IMAGENES = RUTA_IMAGENES_JUEGO + "preguntas/";
+    public final static String RUTA_TEMATICAS_IMAGENES = RUTA_IMAGENES_JUEGO + "tematicas/";
+    public final static String RUTA_PERFILES_JUGADORES = RUTA + "multimedia/perfiles/";
+
+    
+    public static Connection getConexion() {
+    	try {
+			Connection conexion = DriverManager.getConnection(URL, USUARIO, CLAVE);
+			return conexion;
+		} catch (SQLException e) {
+			return null;
+		}
+    }
+    
+    
+    
+    /*
+     * Este método puede devolver:
+     * 		-404 		-> En caso de que no haya podido ejecutarlo por algún problema de conexión
+     * 		-1   		-> La contraseña la puso mal	
+     * 		Otro numero -> El id del usuario
+    */
+    public static int loginAdmin(String pass) {
+    	try {
+    		Connection con = Conexion.getConexion();
+			CallableStatement sql = con.prepareCall("{call LoginAdmin(?, ? )}");//CALL LoginAdmin('asd',@salida);
+			sql.setString(1, pass);
+			sql.registerOutParameter(2, Types.INTEGER);
+			sql.executeUpdate();
+			int respuesta = sql.getInt(2);
+			return respuesta;
+		} catch (SQLException e) {
+			return -404;
+		}
+    }
+    
+    public static String[] cargarTematicas() {
+    	String cadena = "";
+		Connection con = Conexion.getConexion();
+		String sql = "CALL CargarTematicas();";
+		Statement registro;
+		try {
+			registro = con.createStatement();
+			ResultSet consulta = registro.executeQuery(sql);
+			int id_tematica = 0;
+			String nombre = "";
+			String ruta_imagen = "";
+			while (consulta.next()) {
+				id_tematica = consulta.getInt("id_tematica");
+				nombre = consulta.getString("nombre");
+				ruta_imagen = consulta.getString("ruta_imagen");
+				cadena += nombre + "|";
+			}
+			cadena = cadena.substring(0, cadena.length() - 2);
+		} catch (Exception e2) {
+			// TODO: handle exception
+			e2.printStackTrace();
+		}
+    }
+    
+	//  CONSTRUYE UN STRING DE UNA LLAMADA DE PROCEDIMIENTO ALMACENADO
+	  /*public static String call(String nombreProcedimientoAlmacenado,boolean salida, Object... parametros) {
+			String llamada = "CALL " + nombreProcedimientoAlmacenado + "(";
+			int longi = parametros.length;
+		    for (int i=0 ; i < longi; i++) {
+		        llamada += "\'" + parametros[i] + "\'" + ",";
+		    }
+		    if (salida) {
+		    	llamada += "@salida);";
+		    } else {
+		    	llamada = llamada.substring(0,llamada.length()-1);
+		    	llamada += ");";
+		    }
+		    return llamada;
+		}*/
+    
+
+	public static void main(String[] args) {
+		//Connection conexion = Conexion.getConexion();
+		//System.out.println(conexion);
+	}
+
+}

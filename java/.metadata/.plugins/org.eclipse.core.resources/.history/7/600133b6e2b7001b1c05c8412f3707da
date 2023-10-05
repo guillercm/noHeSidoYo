@@ -1,0 +1,185 @@
+package no_he_sido_yo;
+
+import java.awt.BorderLayout;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import java.awt.EventQueue;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JInternalFrame;
+
+public class nohesidoyo extends JFrame {
+
+	private JPanel contentPane;
+	private JLabel lblLogo;
+	private JPasswordField contraAdmin;
+	private JButton btnLogin;
+	private JPanel panelLogin;
+	private JPanel panelMenu;
+	private JButton btnUsuarios;
+	private JPanel panelTemPreg;
+	private JLabel lblTem;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JPanel panelTem;
+
+	/**
+	 * Launch the application.
+	 */
+	
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					nohesidoyo frame = new nohesidoyo();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * @throws MalformedURLException 
+	 */
+	public nohesidoyo() throws MalformedURLException {
+		setTitle("No he sido yo");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 708, 560);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panelTemPreg = new JPanel();
+		panelTemPreg.setBounds(0, 0, 691, 521);
+		contentPane.add(panelTemPreg);
+		panelTemPreg.setLayout(null);
+		
+		panelTem = new JPanel();
+		panelTem.setBounds(90, 64, 536, 63);
+		panelTemPreg.add(panelTem);
+		panelTem.setLayout(null);
+		
+		lblTem = new JLabel("Policia");
+		lblTem.setBounds(10, 14, 97, 29);
+		panelTem.add(lblTem);
+		lblTem.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		btnNewButton = new JButton("Ver preguntas");
+		btnNewButton.setBounds(132, 11, 137, 38);
+		panelTem.add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("Añadir preguntas");
+		btnNewButton_1.setBounds(319, 11, 143, 38);
+		panelTem.add(btnNewButton_1);
+		
+		panelLogin = new JPanel();
+		panelLogin.setBounds(0, 0, 691, 521);
+		contentPane.add(panelLogin);
+		panelLogin.setLayout(null);
+		
+		lblLogo = new JLabel("");
+		lblLogo.setBounds(0, 0, 691, 281);
+		panelLogin.add(lblLogo);
+		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		lblLogo.setIcon(new ImageIcon(new URL(Conexion.RUTA_IMAGENES_JUEGO + "noHeSidoYo.png")));
+		
+		JLabel lblAdmin = new JLabel("Admin");
+		lblAdmin.setBounds(191, 309, 307, 44);
+		panelLogin.add(lblAdmin);
+		lblAdmin.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblAdmin.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		contraAdmin = new JPasswordField();
+		contraAdmin.setBounds(225, 357, 238, 28);
+		panelLogin.add(contraAdmin);
+		contraAdmin.setToolTipText("");
+		
+		btnLogin = new JButton("Entrar");
+		btnLogin.setBounds(293, 396, 103, 37);
+		panelLogin.add(btnLogin);
+		
+		btnLogin.addActionListener(new ActionListener() { //SOLO SE EJECUTA CUANDO HACEMOS CLICK
+			public void actionPerformed(ActionEvent e) {
+				String contra = contraAdmin.getText().toString();
+				//String sql = Conexion.setSalida();
+				int login = Conexion.loginAdmin(contra);
+				System.out.print(login);
+				if (login == -404) {
+					JOptionPane.showMessageDialog(null, "Imposible conectarse. Problemas de conexión", "No he sido yo", 2);
+				}else if(login == -1){
+					JOptionPane.showMessageDialog(null, "Contraseña incorrecta. Vuelva a intentarlo", "No he sido yo", 0);
+				}else {
+					//Contraseña correcta
+					panelLogin.setVisible(false);
+					panelMenu.setVisible(true);
+				}
+				/*
+				String sql = Conexion.call("LoginAdmin",true,contra);
+				System.out.println(sql);
+				if (Conexion.setProcedimientoConSalida(sql)) {
+					try {
+						int salida = Conexion.getSalida();
+						System.out.println(salida);
+					} catch (SQLException e1) {
+						System.out.print("error");
+					}
+				}
+				*/
+			}
+		});
+		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		panelMenu = new JPanel();
+		panelMenu.setBounds(0, 0, 691, 521);
+		contentPane.add(panelMenu);
+		
+		btnUsuarios = new JButton("Usuarios");
+		btnUsuarios.setBounds(202, 64, 279, 90);
+		btnUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelMenu.setVisible(false);
+			}
+		});
+		panelMenu.setLayout(null);
+		panelMenu.add(btnUsuarios);
+		
+		JButton btnTemPreg = new JButton("Temáticas y preguntas");
+		btnTemPreg.setBounds(202, 291, 279, 90);
+		btnTemPreg.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnTemPreg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelMenu.setVisible(false);
+				panelTemPreg.setVisible(true);
+			}
+		});
+		panelMenu.add(btnTemPreg);
+		
+		//OTRAS PANTALLAS DE AL APLICACION
+		panelMenu.setVisible(false);
+		panelTemPreg.setVisible(false);
+	}
+}

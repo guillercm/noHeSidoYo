@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>No he sido yo!</title>
+	<script type="text/javascript" src="scripts/libreria.js"></script>
+	<link href="styles/login_register.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div id="login">
+        <form method="POST" action="includes/register.php" name="register" id="validar">
+		<img class="logo" src="multimedia/juego/noHeSidoYo.png">
+          <h1>Registrate</h1>
+          <input type="text" name="usuario" id="usuario" required minlength="3" maxlength="15" placeholder="Usuario" pattern="[a-zA-Z0-9-áéíóúÁÉÍÓÚñÑ]+">
+          <input type="password" name="contra" id="contra" required minlength="6" maxlength="40" placeholder="Contraseña">
+		  <input type="password" name="contra2" id="contra2" required minlength="6" maxlength="40" placeholder="Repite contraseña">
+          <input type="submit" value="Registrate" class="btnEnviar">
+			<p>¿Ya tienes una cuenta? </p>
+          <a href="login.html">Inicia sesión</a>
+        </form>
+    </div>
+	<script type="text/javascript">
+		validar.addEventListener("submit",function(e){
+			e.preventDefault();
+			if(contra.value != contra2.value){ 
+				register("Las contraseñas no son iguales");
+			} else {
+				getPHP("includes/register.php", register, 'usuario', usuario.value.trim(), 'contra', contra.value.trim(), 'contra2', contra2.value.trim());
+			}
+		});
+	</script>
+</body>
+</html>

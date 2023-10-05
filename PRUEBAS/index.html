@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		* {
+		    padding: 0;
+		    margin: 0;
+		    box-sizing: border-box;
+		}
+		#pintar {
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    margin: 0;
+		    padding: 0;
+		    z-index: 1;
+		    background-color: #dbb61d;
+		    display: none;
+		}
+		#pintar .divTitulo {
+    		background-color: #dbb61d;
+		}
+		#pintar #divCanvas canvas {
+		    /* border: 1px solid #d9d9d9; */
+		    background-color: #FFFFFF;
+		}
+		#pintar .inputsParaCanvas {
+		    bottom: 0;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    width: 100%;
+		    text-align: center;
+		    background-color: #facf20;
+		    font-size: 5vw;
+		    height: 15vw;
+		    text-align: center;
+		}
+		#pintar .divTitulo {
+		    background-color: #dbb61d;
+		}
+		#pintar .divImg {
+		    width: 50%;
+		    text-align: center;
+		}
+		#pintar #borrar img {
+		    width: 9vw;
+		}
+		#pintar .divImg img {
+		    cursor: pointer;
+		}
+		#pintar .inputsParaCanvas input[type=range] {
+		    width: 31vw;
+		    height: 4.2vw;
+		    width: 50%;
+		    cursor: pointer;
+		}
+		#pintar .inputsParaCanvas input[type=color] {
+		    border: 0;
+		    background: transparent;
+		    width: 50%;
+		    outline: none;
+		    cursor: pointer;
+		}
+		#pintar #borrador img {
+		    width: 13vw;
+		}
+		#pintar .divImg img {
+		    cursor: pointer;
+		}
+		#pintar #cancelarDibujo button {
+		    background-color: #ff3636;
+		    border: 2px solid #ed0000;
+		    outline: none;
+		    width: 90%;
+		    font-size: 6vw;
+		    padding: 1%;
+		}
+		#pintar #enviarDibujo button {
+		    background-color: #53f037;
+		    border: 2px solid #27ff00;
+		    outline: none;
+		    width: 90%;
+		    font-size: 6vw;
+		    padding: 1%;
+		}
+		button {
+		    color: white;
+		    cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+<div id="pintar" style="display: block;">
+  <div id="divCanvas">
+    <canvas id="sketchpad" width="494" height="329.33333333333337"></canvas>
+  </div>
+  <div class="inputsParaCanvas divTitulo">
+    <h2>hola</h2>
+  </div>
+  <div class="inputsParaCanvas">
+    <input type="color" id="color">
+    <input type="range" id="grosor" min="1" max="15" value="1">
+  </div>
+  <div class="inputsParaCanvas imgBorrar">
+    <div class="divImg" id="borrar">
+      <img src="hoja.png">
+    </div>
+    <div class="divImg" id="borrador">
+      <img src="borrador.png">
+    </div>
+  </div>
+  <div class="inputsParaCanvas imgBorrar">
+    <div class="divImg" id="cancelarDibujo">
+      <button>CANCELAR</button>
+    </div>
+    <div class="divImg" id="enviarDibujo">
+      <button>ENVIAR</button>
+    </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript">
+function pintar() {
+  
+  var color = "black";
+  var grosor = 1;
+  var canvas = document.getElementById('sketchpad');
+  var inputColor = document.getElementById('color');
+  var inputGrosor = document.getElementById('grosor');
+  var botonBorrador = document.getElementById('borrador');
+  var botonBorrar = document.getElementById('borrar');
+  var context = canvas.getContext('2d');
+  var isIdle = true;
+  
+  window.onresize = function() {
+    numWidth = document.documentElement.clientWidth;
+    canvas.setAttribute("width",numWidth);
+    canvas.setAttribute("height",numWidth-(numWidth/3));      
+  }
+  
+  numWidth = document.documentElement.clientWidth;
+  canvas.setAttribute("width",numWidth);
+  canvas.setAttribute("height",numWidth-(numWidth/3));      
+  
+  function defColor() {
+    color = inputColor.value;
+  }
+  
+  function defBorrar() {
+    color = "#FFFFFF";
+  }
+  
+  function defGrosor() {
+    grosor = inputGrosor.value;
+  }
+  
+  function borrar(event) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.rect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "#FFFFFF";
+    context.fill();
+  }
+
+  function drawstart(event) {
+    context.beginPath();
+    context.moveTo(event.pageX - canvas.offsetLeft - canvas.offsetLeft, event.pageY - canvas.offsetTop - canvas.offsetTop);
+    isIdle = false;
+  }
+
+  function drawmove(event) {
+    if (isIdle) return;
+    context.lineTo(event.pageX - canvas.offsetLeft - canvas.offsetLeft, event.pageY - canvas.offsetTop - canvas.offsetTop);
+    context.lineWidth = grosor;
+    context.strokeStyle = color;
+    context.stroke();
+  }
+  
+  function drawend(event) {
+    if (isIdle) return;
+    drawmove(event);
+    isIdle = true;
+  }
+
+  function touchstart(event) { drawstart(event.touches[0]) }
+  function touchmove(event) { drawmove(event.touches[0]); event.preventDefault(); }
+  function touchend(event) { drawend(event.changedTouches[0]) }
+
+  canvas.addEventListener('touchstart', touchstart, false);
+  canvas.addEventListener('touchmove', touchmove, false);
+  canvas.addEventListener('touchend', touchend, false);        
+
+  canvas.addEventListener('mousedown', drawstart, false);
+  canvas.addEventListener('mousemove', drawmove, false);
+  canvas.addEventListener('mouseup', drawend, false);
+  inputColor.addEventListener('change', defColor, false);
+  inputColor.addEventListener('click', defColor, false);
+  inputGrosor.addEventListener('change', defGrosor, false);
+  botonBorrador.addEventListener('click', defBorrar, false);
+  botonBorrar.addEventListener('click', borrar, false);
+}
+pintar();
+</script>
+</html>

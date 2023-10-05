@@ -1,0 +1,114 @@
+:root {
+  --altoBarra: 6.5vh;
+}
+
+img {
+  object-fit: cover;
+  object-position: 50% 50%;
+  vertical-align: middle;
+}
+.logo {
+  float: right;
+  border-radius: 50%;
+  height: 80%;
+  margin-top: 0.4vh;
+  margin-right: 0.5vh;
+  margin-left: 0.5vh;
+}
+/* ~~ Top Navigation Bar ~~ */
+
+#navigation-container {
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.navigation-bar {
+  background-color: #73361c;
+  height: var(--altoBarra);
+  width: 100%;
+  position: absolute;
+  z-index: 17;
+}
+
+.navigation-bar ul {
+  text-align: center;
+  background: white;
+  height: var(--altoBarra);
+}
+
+.navigation-bar li {
+  list-style-type: none;
+  display: inline;
+  position: relative;
+  height: var(--altoBarra);
+}
+
+.navigation-bar li span {
+  color: black;
+  font-size: 16px;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  line-height: var(--altoBarra);
+  padding: 5px 15px;
+  opacity: 0.7;
+  height: var(--altoBarra);
+}
+
+#menu {
+  float: right;
+}
+
+.dropdown-content {
+  z-index: 4 !important;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  right: 0;
+  top: var(--altoBarra);
+  text-align: center;
+  padding-top: 20px;
+}
+
+.dropdown-content div {
+  float: none;
+  color: black;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  background-color: rgba(235, 233, 233, 0.301);
+  cursor: pointer;
+}
+
+.dropdown-content div:hover {
+  background-color: rgb(187 184 184 / 30%);
+}
+
+.logoMarca {
+  float: left;
+  border-radius: 0;
+  position: absolute;
+  z-index: 0;
+}
+.logoSubMenu {
+  float: none;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  box-shadow: 0 0 4px 3px rgb(0 0 0 / 40%);
+  margin-top: 0;
+}
+
+#abrirSubmenu {
+  cursor: pointer;
+  border-radius: 150px;
+  width: calc(var(--altoBarra) - 1vh);
+  height: calc(var(--altoBarra) - 1vh);
+  border-radius: 50%;
+  background-color: white;
+}

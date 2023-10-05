@@ -1,0 +1,132 @@
+package no_he_sido_yo;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JTextField;
+import java.awt.Label;
+import java.awt.Font;
+import java.awt.Canvas;
+import java.awt.Panel;
+import java.awt.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+public class NoHeSidoYo extends JFrame implements ActionListener {
+
+	private JPanel contentPane = null;
+	private JMenuItem mntmSalir = null;
+	private volatile JTextField txtAlto;
+	private JTextField txtAncho;
+	private JMenuItem cambiarColor;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		//OnclickElement.outerFunction(Object object, Method method, String message);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Pruebas frame = new Pruebas();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public NoHeSidoYo() throws MalformedURLException {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 101, 22);
+		contentPane.add(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("File");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewNuevo = new JMenuItem("Nuevo");
+		mnNewMenu.add(mntmNewNuevo);
+		
+		mntmSalir = new JMenuItem("Salir");
+		mntmSalir.addActionListener(this);
+		mnNewMenu.add(mntmSalir);
+		
+		
+		JMenu mnNewMenu_1 = new JMenu("Opciones");
+		menuBar.add(mnNewMenu_1);
+		
+		cambiarColor = new JMenuItem("Cambiar color");
+		cambiarColor.addActionListener(this);
+		mnNewMenu_1.add(cambiarColor);
+		
+		JMenu mnNewMenu_2 = new JMenu("Redimensionar");
+		mnNewMenu_1.add(mnNewMenu_2);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
+		mnNewMenu_2.add(mntmNewMenuItem_1);
+		
+		txtAlto = new JTextField();
+		txtAlto.setBounds(298, 59, 126, 31);
+		contentPane.add(txtAlto);
+		txtAlto.setColumns(10);
+		
+		Label alto = new Label("Alto...");
+		alto.setFont(new Font("Bauhaus 93", Font.PLAIN, 19));
+		alto.setBounds(208, 51, 62, 39);
+		contentPane.add(alto);
+		
+		Label ancho = new Label("Ancho...");
+		ancho.setFont(new Font("Bauhaus 93", Font.PLAIN, 19));
+		ancho.setBounds(197, 101, 83, 39);
+		contentPane.add(ancho);
+		
+		txtAncho = new JTextField();
+		txtAncho.setColumns(10);
+		txtAncho.setBounds(298, 109, 126, 31);
+		contentPane.add(txtAncho);
+		JButton btnPrueba = new JButton(new ImageIcon(new URL(Conexion.RUTA_TEMATICAS_IMAGENES + "acampada.jpg")));
+		btnPrueba.setBounds(10, 53, 137, 197);
+		contentPane.add(btnPrueba);
+	}
+	
+	public int random(int num1, int num2) {
+		num1--;
+		num2++;
+		return (int) Math.floor(Math.random()*(num1-num2+1)+num2);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == mntmSalir) {
+			System.out.println(System.err);
+			System.exit(0);
+		} else if (e.getSource() == cambiarColor) {
+			Color color = new Color(random(0, 255), random(0, 255), random(0, 255));
+			contentPane.setBackground(color);
+		}
+	}
+}
+
+
+

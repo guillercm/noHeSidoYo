@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>No he sido yo!</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script type="text/javascript" src="scripts/libreria.js"></script>
+	<link href="styles/login_register.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	
+    <div id="login">
+        <form method="POST" name="login" id="form">
+		<img class="logo" src="multimedia/juego/noHeSidoYo.png">
+          <h1>Iniciar Sesión</h1>
+          <input type="text" name="usuario" id="usuario" required minlength="3" maxlength="15" placeholder="Usuario" pattern="[a-zA-Z0-9-áéíóúÁÉÍÓÚñÑ]+">
+          <input type="password" name="contra" id="contra" required minlength="6" maxlength="40" placeholder="Contraseña">
+          <input type="submit" value="Entrar" class="btnEnviar">
+		  <p>¿No tienes cuenta? </p>
+          <a href="register.html">Regístrate</a>
+        </form>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+
+form.addEventListener("submit", function(e) {
+	e.preventDefault();
+	getPHP("includes/login.php", login, 'usuario', usuario.value, 'contra', contra.value);
+});
+
+</script>
